@@ -84,29 +84,7 @@ $db->close();
         </ul>
     </nav>
 
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="dashboard.php" class="brand-link text-decoration-none">
-            <span class="brand-text fs-5 ms-3">PlayPal Admin</span>
-        </a>
-        <div class="sidebar">
-            <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item">
-                        <a href="dashboard.php" class="nav-link">
-                            <i class="nav-icon bi bi-speedometer2"></i>
-                            <p>Dashboard</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="adminPrvldgCfg.php" class="nav-link active">
-                            <i class="nav-icon bi bi-box-seam"></i>
-                            <p>Admin Produk</p>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </aside>
+    <?php include __DIR__ . '/sidebar.php'; ?>
 
     <div class="content-wrapper">
         <div class="content-header">
