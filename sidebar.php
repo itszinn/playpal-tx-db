@@ -26,6 +26,7 @@ function renderMenu(array $items, string $currentPage)
     foreach ($items as $item) {
         $hasChildren = isset($item['children']);
         $isActive = isset($item['href']) && $item['href'] !== '#' && $currentPage === basename($item['href']);
+
         $childActive = false;
         if ($hasChildren) {
             foreach ($item['children'] as $child) {
@@ -35,14 +36,26 @@ function renderMenu(array $items, string $currentPage)
                 }
             }
         }
+
+        $liClass = 'nav-item';
+        if ($hasChildren && $childActive) {
+            $liClass .= ' menu-open';
+        }
+
+        $aHref = $hasChildren ? '#' : (isset($item['href']) ? htmlspecialchars($item['href']) : '#');
+        $aClass = 'nav-link';
+        if ($isActive || $childActive) {
+            $aClass .= ' active';
+        }
+
         ?>
-        <li class="nav-item<?= $hasChildren ? ' has-treeview' : '' ?><?= $childActive ? ' menu-open' : '' ?>">
-            <a href="<?= isset($item['href']) ? htmlspecialchars($item['href']) : '#' ?>" class="nav-link<?= $isActive || $childActive ? ' active' : '' ?>" title="<?= htmlspecialchars($item['label']) ?>">
+        <li class="<?= htmlspecialchars($liClass) ?>">
+            <a href="<?= $aHref ?>" class="<?= htmlspecialchars($aClass) ?>" title="<?= htmlspecialchars($item['label']) ?>">
                 <i class="nav-icon bi <?= htmlspecialchars($item['icon']) ?>"></i>
-                <p class="nav-label">
+                <p>
                     <?= htmlspecialchars($item['label']) ?>
                     <?php if ($hasChildren): ?>
-                        <i class="right bi bi-caret-down-fill"></i>
+                        <i class="nav-arrow bi bi-chevron-right"></i>
                     <?php endif; ?>
                 </p>
             </a>
@@ -57,16 +70,29 @@ function renderMenu(array $items, string $currentPage)
 }
 ?>
 
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="dashboard.php" class="brand-link text-decoration-none justify-content-center">
-        <span class="brand-icon"><i class="bi bi-controller"></i></span>
-        <span class="brand-text">PlayPal</span>
-    </a>
-    <div class="sidebar">
-        <nav class="mt-3">
-            <ul class="nav nav-pills nav-sidebar nav-compact flex-column" data-widget="treeview" role="menu" data-accordion="false">
+<aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark" data-lte-toggle="sidebar">
+    <div class="sidebar-brand">
+        <a href="dashboard.php" class="brand-link">
+            <span class="brand-image opacity-75 shadow d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.08);">
+                <i class="bi bi-controller"></i>
+            </span>
+            <span class="brand-text fw-light ms-2">PlayPal</span>
+        </a>
+    </div>
+
+    <div class="sidebar-wrapper">
+        <nav class="mt-2">
+            <ul
+                class="nav sidebar-menu flex-column"
+                data-lte-toggle="treeview"
+                role="navigation"
+                aria-label="Main navigation"
+                data-accordion="false"
+                id="navigation"
+            >
                 <?php renderMenu($menuItems, $currentPage); ?>
             </ul>
         </nav>
     </div>
 </aside>
+
