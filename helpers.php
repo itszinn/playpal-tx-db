@@ -56,6 +56,17 @@ function get_payment_methods() {
     ];
 }
 
+function get_status_badge_class($status) {
+    return match ($status) {
+        'Success' => 'badge-success',
+        'Pending' => 'badge-pending',
+        'Refund' => 'badge-refund',
+        'Paid' => 'badge-paid',
+        'Waiting for Approval' => 'badge-wfa',
+        default => 'badge-secondary',
+    };
+}
+
 function fetch_supplier_data() {
     if (empty(SUPPLIER_API_URL) || strpos(SUPPLIER_API_URL, 'example.com') !== false) {
         return null;

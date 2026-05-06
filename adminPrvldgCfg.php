@@ -64,8 +64,9 @@ $db->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Produk - PlayPal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/theme.css" rel="stylesheet">
 </head>
-<body class="bg-light">
+<body class="bg-surface">
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand" href="dashboard.php">PlayPal Admin</a>
@@ -84,7 +85,7 @@ $db->close();
         <div class="alert alert-success"><?= $message ?></div>
     <?php endif; ?>
     <div class="mb-4">
-        <div class="card shadow-sm">
+        <div class="card shadow-sm preview-card">
             <div class="card-body">
                 <h5 class="card-title">Tambah Produk Baru</h5>
                 <form method="post" action="">
@@ -112,11 +113,11 @@ $db->close();
             </div>
         </div>
     </div>
-    <div class="card shadow-sm">
+    <div class="card shadow-sm preview-card">
         <div class="card-body">
             <h5 class="card-title">Daftar Produk</h5>
             <div class="table-responsive">
-                <table class="table table-bordered align-middle mb-0">
+                <table class="table table-bordered table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
                             <th>#</th>

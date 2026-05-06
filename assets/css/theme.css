@@ -1,0 +1,120 @@
+/* Theme styling untuk PlayPal Dashboard */
+:root {
+    color-scheme: light;
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --surface: #f7f9fc;
+    --surface-alt: #ffffff;
+    --primary: #1d4ed8;
+    --primary-soft: #e0e7ff;
+    --accent: #0ea5e9;
+    --text: #111827;
+    --muted: #6b7280;
+    --border: rgba(148, 163, 184, 0.16);
+}
+
+body {
+    background: linear-gradient(180deg, #eef2ff 0%, #f8fafc 100%);
+    color: var(--text);
+}
+
+.navbar {
+    background: linear-gradient(135deg, #1d4ed8 0%, #0ea5e9 100%) !important;
+}
+
+.navbar-brand, .navbar-nav .nav-link, .btn-outline-light {
+    font-weight: 600;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.card {
+    border: 0;
+    border-radius: 1rem;
+}
+
+.card.shadow-sm {
+    box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+}
+
+.card.bg-light {
+    background-color: var(--surface-alt) !important;
+}
+
+.stat-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%);
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+}
+
+.stat-card h6 {
+    color: var(--muted);
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+}
+
+.stat-card p {
+    color: var(--text);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+.btn-secondary {
+    background-color: #e0e7ff;
+    color: #1d4ed8;
+    border-color: transparent;
+}
+
+.preview-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.table thead {
+    border-bottom: 2px solid rgba(15, 23, 42, 0.08);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(59, 130, 246, 0.06);
+}
+
+.badge-status {
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0.55em 0.75em;
+    border-radius: 999px;
+}
+
+.badge-success { background-color: #dcfce7; color: #166534; }
+.badge-pending { background-color: #fef9c3; color: #713f12; }
+.badge-refund { background-color: #fee2e2; color: #991b1b; }
+.badge-paid { background-color: #dbeafe; color: #1e40af; }
+.badge-wfa { background-color: #e0f2fe; color: #055d8c; }
+
+.bg-surface {
+    background-color: var(--surface);
+}
+
+.login-card {
+    border-radius: 1.5rem;
+    background: rgba(255,255,255,0.96);
+}
+
+.login-hero {
+    background: linear-gradient(180deg, rgba(59,130,246,0.15), rgba(59,130,246,0));
+}
+
+.footer-note {
+    color: var(--muted);
+}

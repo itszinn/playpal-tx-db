@@ -65,9 +65,10 @@ $db->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Transaksi - PlayPal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/theme.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
-<body class="bg-light">
+<body class="bg-surface">
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">PlayPal Admin</a>
@@ -84,32 +85,32 @@ $db->close();
     </div>
     <div class="row g-3 mb-4">
         <div class="col-md-3">
-            <div class="card shadow-sm">
-                <div class="card-body">
+            <div class="card stat-card shadow-sm p-3">
+                <div class="card-body p-0">
                     <h6>Total Transaksi</h6>
                     <p class="display-6 mb-0"><?= number_format($stats['total_transactions']) ?></p>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card shadow-sm">
-                <div class="card-body">
+            <div class="card stat-card shadow-sm p-3">
+                <div class="card-body p-0">
                     <h6>Jumlah Omzet</h6>
                     <p class="display-6 mb-0"><?= format_idr($stats['omzet']) ?></p>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card shadow-sm">
-                <div class="card-body">
+            <div class="card stat-card shadow-sm p-3">
+                <div class="card-body p-0">
                     <h6>Jumlah Profit</h6>
                     <p class="display-6 mb-0"><?= format_idr($stats['profit']) ?></p>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card shadow-sm">
-                <div class="card-body">
+            <div class="card stat-card shadow-sm p-3">
+                <div class="card-body p-0">
                     <h6>User Terdaftar</h6>
                     <p class="display-6 mb-0"><?= number_format($stats['registered_users']) ?></p>
                 </div>
@@ -128,7 +129,7 @@ $db->close();
         <div class="card-body">
             <h5 class="card-title mb-3">10 Transaksi Terbaru</h5>
             <div class="table-responsive">
-                <table class="table table-bordered align-middle mb-0">
+                <table class="table table-bordered table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
                             <th>#</th>
@@ -149,7 +150,7 @@ $db->close();
                                 <td><?= $index + 1 ?></td>
                                 <td><?= htmlspecialchars($tx['user_email'] ?: 'Guest') ?></td>
                                 <td><?= htmlspecialchars($tx['product_name'] ?: '-') ?></td>
-                                <td><?= htmlspecialchars($tx['status']) ?></td>
+                                <td><span class="badge badge-status <?= get_status_badge_class($tx['status']) ?>"><?= htmlspecialchars($tx['status']) ?></span></td>
                                 <td><?= htmlspecialchars($tx['payment_method']) ?></td>
                                 <td><?= format_idr($tx['total_amount']) ?></td>
                                 <td><?= format_idr($tx['profit']) ?></td>
