@@ -58,12 +58,12 @@ function get_payment_methods() {
 
 function get_status_badge_class($status) {
     return match ($status) {
-        'Success' => 'badge-success',
-        'Pending' => 'badge-pending',
-        'Refund' => 'badge-refund',
-        'Paid' => 'badge-paid',
-        'Waiting for Approval' => 'badge-wfa',
-        default => 'badge-secondary',
+        'Success' => 'bg-success',
+        'Pending' => 'bg-warning',
+        'Refund' => 'bg-danger',
+        'Paid' => 'bg-primary',
+        'Waiting for Approval' => 'bg-info',
+        default => 'bg-secondary',
     };
 }
 

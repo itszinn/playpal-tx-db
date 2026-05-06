@@ -64,105 +64,177 @@ $db->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Transaksi - PlayPal</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/template/AdminLTE-master/AdminLTE-master/dist/css/adminlte.min.css">
     <link href="assets/css/theme.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
-<body class="bg-surface">
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">PlayPal Admin</a>
-        <div class="d-flex gap-2">
-            <a class="btn btn-outline-light" href="adminPrvldgCfg.php">Admin Produk</a>
-            <a class="btn btn-light" href="logout.php">Logout</a>
-        </div>
-    </div>
-</nav>
-<div class="container py-4">
-    <div class="mb-4">
-        <h1 class="h3">Dashboard Transaksi Bulan Berjalan</h1>
-        <p class="text-muted">Ringkasan statistik dan laporan transaksi.</p>
-    </div>
-    <div class="row g-3 mb-4">
-        <div class="col-md-3">
-            <div class="card stat-card shadow-sm p-3">
-                <div class="card-body p-0">
-                    <h6>Total Transaksi</h6>
-                    <p class="display-6 mb-0"><?= number_format($stats['total_transactions']) ?></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card stat-card shadow-sm p-3">
-                <div class="card-body p-0">
-                    <h6>Jumlah Omzet</h6>
-                    <p class="display-6 mb-0"><?= format_idr($stats['omzet']) ?></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card stat-card shadow-sm p-3">
-                <div class="card-body p-0">
-                    <h6>Jumlah Profit</h6>
-                    <p class="display-6 mb-0"><?= format_idr($stats['profit']) ?></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card stat-card shadow-sm p-3">
-                <div class="card-body p-0">
-                    <h6>User Terdaftar</h6>
-                    <p class="display-6 mb-0"><?= number_format($stats['registered_users']) ?></p>
-                </div>
-            </div>
-        </div>
-    </div>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="bi bi-list"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="#" class="nav-link">Dashboard</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="logout.php">Logout <i class="bi bi-box-arrow-right"></i></a>
+            </li>
+        </ul>
+    </nav>
 
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Grafik Omzet</h5>
-            <canvas id="omzetChart" height="120"></canvas>
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <a href="dashboard.php" class="brand-link text-decoration-none">
+            <span class="brand-text fs-5 ms-3">PlayPal Admin</span>
+        </a>
+        <div class="sidebar">
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item">
+                        <a href="dashboard.php" class="nav-link active">
+                            <i class="nav-icon bi bi-speedometer2"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="adminPrvldgCfg.php" class="nav-link">
+                            <i class="nav-icon bi bi-box-seam"></i>
+                            <p>Admin Produk</p>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
-    </div>
+    </aside>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <h5 class="card-title mb-3">10 Transaksi Terbaru</h5>
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>#</th>
-                            <th>User</th>
-                            <th>Produk</th>
-                            <th>Status</th>
-                            <th>Metode</th>
-                            <th>Omzet</th>
-                            <th>Profit</th>
-                            <th>Tanggal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (empty($recentTransactions)): ?>
-                            <tr><td colspan="8" class="text-center">Tidak ada transaksi</td></tr>
-                        <?php else: foreach ($recentTransactions as $index => $tx): ?>
-                            <tr>
-                                <td><?= $index + 1 ?></td>
-                                <td><?= htmlspecialchars($tx['user_email'] ?: 'Guest') ?></td>
-                                <td><?= htmlspecialchars($tx['product_name'] ?: '-') ?></td>
-                                <td><span class="badge badge-status <?= get_status_badge_class($tx['status']) ?>"><?= htmlspecialchars($tx['status']) ?></span></td>
-                                <td><?= htmlspecialchars($tx['payment_method']) ?></td>
-                                <td><?= format_idr($tx['total_amount']) ?></td>
-                                <td><?= format_idr($tx['profit']) ?></td>
-                                <td><?= htmlspecialchars($tx['created_at']) ?></td>
-                            </tr>
-                        <?php endforeach; endif; ?>
-                    </tbody>
-                </table>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Dashboard Transaksi</h1>
+                        <p class="text-muted">Ringkasan transaksi bulan berjalan.</p>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-primary">
+                            <div class="inner">
+                                <h3><?= number_format($stats['total_transactions']) ?></h3>
+                                <p>Total Transaksi</p>
+                            </div>
+                            <div class="icon">
+                                <i class="bi bi-cart-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3><?= format_idr($stats['omzet']) ?></h3>
+                                <p>Jumlah Omzet</p>
+                            </div>
+                            <div class="icon">
+                                <i class="bi bi-currency-dollar"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3><?= format_idr($stats['profit']) ?></h3>
+                                <p>Jumlah Profit</p>
+                            </div>
+                            <div class="icon">
+                                <i class="bi bi-graph-up"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3><?= number_format($stats['registered_users']) ?></h3>
+                                <p>User Terdaftar</p>
+                            </div>
+                            <div class="icon">
+                                <i class="bi bi-people"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-outline card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Grafik Omzet</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="omzetChart" height="120"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-outline card-secondary">
+                            <div class="card-header">
+                                <h3 class="card-title">10 Transaksi Terbaru</h3>
+                            </div>
+                            <div class="card-body table-responsive p-0">
+                                <table class="table table-hover text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>User</th>
+                                            <th>Produk</th>
+                                            <th>Status</th>
+                                            <th>Metode</th>
+                                            <th>Omzet</th>
+                                            <th>Profit</th>
+                                            <th>Tanggal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if (empty($recentTransactions)): ?>
+                                            <tr><td colspan="8" class="text-center">Tidak ada transaksi</td></tr>
+                                        <?php else: foreach ($recentTransactions as $index => $tx): ?>
+                                            <tr>
+                                                <td><?= $index + 1 ?></td>
+                                                <td><?= htmlspecialchars($tx['user_email'] ?: 'Guest') ?></td>
+                                                <td><?= htmlspecialchars($tx['product_name'] ?: '-') ?></td>
+                                                <td><span class="badge <?= get_status_badge_class($tx['status']) ?>"><?= htmlspecialchars($tx['status']) ?></span></td>
+                                                <td><?= htmlspecialchars($tx['payment_method']) ?></td>
+                                                <td><?= format_idr($tx['total_amount']) ?></td>
+                                                <td><?= format_idr($tx['profit']) ?></td>
+                                                <td><?= htmlspecialchars($tx['created_at']) ?></td>
+                                            </tr>
+                                        <?php endforeach; endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/dist/js/OverlayScrollbars.min.js"></script>
+<script src="assets/template/AdminLTE-master/AdminLTE-master/dist/js/adminlte.min.js"></script>
 <script>
 const omzetChart = document.getElementById('omzetChart');
 new Chart(omzetChart, {
