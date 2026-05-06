@@ -28,22 +28,20 @@ $stmt->close();
 
 $chartLabels = [];
 $chartData = [];
-$query = 'SELECT DATE(created_at) AS tanggal, COALESCE(SUM(total_amount), 0) AS omzet FROM transactions WHERE created_at BETWEEN ? AND ? GROUP BY DATE(created_at) ORDER BY tanggal ASC';
+$query = 'SELECT DAY(created_at) AS day_number, COALESCE(SUM(total_amount), 0) AS omzet FROM transactions WHERE created_at BETWEEN ? AND ? GROUP BY DAY(created_at) ORDER BY day_number ASC';
 $stmt = $db->prepare($query);
 $stmt->bind_param('ss', $startDate, $endDate);
 $stmt->execute();
-$stmt->bind_result($tanggal, $omzetRow);
+$stmt->bind_result($dayNumber, $omzetRow);
 $daily = [];
 while ($stmt->fetch()) {
-    $daily[$tanggal] = $omzetRow;
+    $daily[intval($dayNumber)] = $omzetRow;
 }
 $stmt->close();
 
-$period = new DatePeriod(new DateTime($startDate), new DateInterval('P1D'), new DateTime(date('Y-m-d', strtotime($endDate . ' +1 day'))));
-foreach ($period as $date) {
-    $label = $date->format('Y-m-d');
-    $chartLabels[] = $label;
-    $chartData[] = isset($daily[$label]) ? floatval($daily[$label]) : 0;
+for ($day = 1; $day <= 31; $day++) {
+    $chartLabels[] = (string) $day;
+    $chartData[] = isset($daily[$day]) ? floatval($daily[$day]) : 0;
 }
 
 $statusList = ['Success', 'Pending', 'Refund', 'Paid', 'Waiting for Approval'];

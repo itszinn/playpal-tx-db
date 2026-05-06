@@ -2,11 +2,11 @@
 $currentPage = basename($_SERVER['PHP_SELF']);
 $menuItems = [
     ['href' => 'dashboard.php', 'icon' => 'bi-speedometer2', 'label' => 'Dashboard'],
-    ['href' => 'adminPrvldgCfg.php', 'icon' => 'bi-box-seam', 'label' => 'Produk'],
-    ['href' => '#', 'icon' => 'bi-receipt', 'label' => 'Transaksi'],
-    ['href' => '#', 'icon' => 'bi-bar-chart-line', 'label' => 'Laporan'],
-    ['href' => '#', 'icon' => 'bi-people', 'label' => 'Pengguna'],
-    ['href' => '#', 'icon' => 'bi-gear', 'label' => 'Pengaturan'],
+    ['href' => 'adminPrvldgCfg.php', 'icon' => 'bi-box-seam', 'label' => 'Product'],
+    ['href' => 'transactions.php', 'icon' => 'bi-receipt', 'label' => 'Transactions'],
+    ['href' => 'reports.php', 'icon' => 'bi-bar-chart-line', 'label' => 'Reports'],
+    ['href' => 'users.php', 'icon' => 'bi-people', 'label' => 'Users'],
+    ['href' => 'settings.php', 'icon' => 'bi-gear', 'label' => 'Settings'],
 ];
 ?>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
